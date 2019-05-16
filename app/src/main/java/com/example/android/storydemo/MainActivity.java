@@ -25,8 +25,10 @@ package com.example.android.storydemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -48,22 +50,33 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int price = calculatePrice();
 
         CheckBox checkWhippedCream = findViewById(R.id.checkWhippedCream);
         boolean addWhippedCream = checkWhippedCream.isChecked();
         CheckBox checkChocolate = findViewById(R.id.checkChocolate);
         boolean addChocolate = checkChocolate.isChecked();
+        EditText customerName = findViewById(R.id.text_name);
+        String addCustomerName = customerName.getText().toString();
 
-        String priceMessage = createOrderSummary(price, addWhippedCream, addChocolate);
+        int price = calculatePrice(addWhippedCream, addChocolate);
+
+        String priceMessage = createOrderSummary(price, addWhippedCream, addChocolate, addCustomerName);
         displayMessage(priceMessage);
     }
 
     /**
-     * 0 input parameter
+     * @param addWhippedCream
+     * @param addChocolate
      */
-    private int calculatePrice() {
-        return quantity * 10;
+    private int calculatePrice(boolean addWhippedCream, boolean addChocolate) {
+        int basePrice = 5;
+
+        if(addWhippedCream == true)
+            basePrice += 1;
+        if(addChocolate == true)
+            basePrice += 2;
+
+        return basePrice*quantity;
     }
 
     /**
@@ -72,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
      * @param addChocolate
      * @return
      */
-    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate) {
+    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate, String customerName) {
         String summary;
-        summary = "Name : Jay";
+        summary = "Name : " + customerName;
         summary += "\nAdd whipped cream? " + addWhippedCream;
         summary += "\nAdd Chocolate? " + addChocolate;
         summary += "\nQuantity : " + quantity;
