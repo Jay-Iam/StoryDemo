@@ -52,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         CheckBox checkWhippedCream = findViewById(R.id.checkWhippedCream);
         boolean addWhippedCream = checkWhippedCream.isChecked();
+        CheckBox checkChocolate = findViewById(R.id.checkChocolate);
+        boolean addChocolate = checkChocolate.isChecked();
 
-        String priceMessage = createOrderSummary(price, addWhippedCream);
+        String priceMessage = createOrderSummary(price, addWhippedCream, addChocolate);
         displayMessage(priceMessage);
     }
 
@@ -67,12 +69,14 @@ public class MainActivity extends AppCompatActivity {
     /**
      * @param price
      * @param addWhippedCream
+     * @param addChocolate
      * @return
      */
-    private String createOrderSummary(int price, boolean addWhippedCream) {
+    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate) {
         String summary;
         summary = "Name : Jay";
-        summary += "\nAdd whipped cream?" + addWhippedCream;
+        summary += "\nAdd whipped cream? " + addWhippedCream;
+        summary += "\nAdd Chocolate? " + addChocolate;
         summary += "\nQuantity : " + quantity;
         summary += "\nTotal : $" + price;
         summary += "\nThank You!";
