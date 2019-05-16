@@ -26,6 +26,7 @@ package com.example.android.storydemo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -65,7 +66,13 @@ public class MainActivity extends AppCompatActivity {
      * @return
      */
     private String createOrderSummary(int price) {
-        return "Name : Jay\nQuantity : " + quantity + "\nTotal : $" + price + "\nThank You!";
+        CheckBox checkWhippedCream = findViewById(R.id.checkWhippedCream);
+        String summary;
+        summary = "Name : Jay";
+        if(checkWhippedCream.isChecked() == true)
+            summary += "\nAdd whipped cream? true";
+        summary += "\nQuantity : " + quantity + "\nTotal : $" + price + "\nThank You!";
+        return summary;
     }
 
     /**
