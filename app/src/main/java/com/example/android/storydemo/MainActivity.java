@@ -23,23 +23,21 @@
 package com.example.android.storydemo;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.NumberFormat;
-
 /**
  * This app displays an order form to order coffee.
  */
 public class MainActivity extends AppCompatActivity {
 
-    int quantity = 0;
+    int quantity = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +58,8 @@ public class MainActivity extends AppCompatActivity {
         String addCustomerName = customerName.getText().toString();
 
         int price = calculatePrice(addWhippedCream, addChocolate);
-
-        String priceMessage = createOrderSummary(price, addWhippedCream, addChocolate, addCustomerName);
-        displayMessage(priceMessage);
+        String summary = createOrderSummary(price, addWhippedCream, addChocolate, addCustomerName);
+        composeEmail(summary, addCustomerName);
     }
 
     /**
@@ -113,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         }
         quantity++;
         display(quantity);
-        // displayPrice(quantity*price);
     }
 
     public void decrement(View view) {
@@ -122,11 +118,20 @@ public class MainActivity extends AppCompatActivity {
         }
         quantity--;
         display(quantity);
-        // displayPrice(quantity*price);
     }
 
-    public void displayMessage(String message) {
-        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
+
+    /**
+     * @param summary
+     * @param customerName
+     */
+    public void composeEmail(String summary, String customerName) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("plain/text");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "JustJava order for " + customerName);
+        intent.putExtra(Intent.EXTRA_TEXT, summary);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
